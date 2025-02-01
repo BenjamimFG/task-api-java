@@ -73,9 +73,10 @@ public class TaskService {
   }
 
   public TaskResponseDTO getById(String id) {
+    logger.info("Iniciando a busca por uma task com ID: {}", id);
     Task task = this.taskRepository.findById(id)
         .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
-
+    logger.info("Finalizando a busca por uma task ID: {}", task.getId());
     return new TaskResponseDTO(
         task.getId(),
         task.getTitle(),
@@ -86,9 +87,10 @@ public class TaskService {
   }
 
   public void deleteTask(String id) {
+    logger.info("Iniciando a deleta uma task com ID: {}", id);
     Task task = this.taskRepository.findById(id)
         .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
-
+    logger.info("Finalizando a deleta uma task com ID: {}", task.getId());
     this.taskRepository.delete(task);
   }
 }
