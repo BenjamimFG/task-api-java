@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import com.br.task.dto.request.TaskRequestDTO;
 import com.br.task.dto.response.TaskResponseDTO;
 import com.br.task.entity.Task;
-import com.br.task.repository.TaskRepository;
 import com.br.task.exception.TaskNotFoundException;
-
+import com.br.task.repository.TaskRepository;
 
 @Service
 public class TaskService {
@@ -48,7 +47,8 @@ public class TaskService {
 
     Task savedTask = this.taskRepository.save(task);
 
-    logger.info("Task criada com sucesso, ID:{} Titulo:{} Descricao{} " ,savedTask.getId(),savedTask.getTitle(),savedTask.getDescription());
+    logger.info("Task criada com sucesso, ID:{} Titulo:{} Descricao{} ", savedTask.getId(), savedTask.getTitle(),
+        savedTask.getDescription());
 
     return new TaskResponseDTO(savedTask.getId(), savedTask.getTitle(), savedTask.getDescription(),
         savedTask.getStatus(), savedTask.getPriority(), savedTask.getDueDate());
@@ -56,17 +56,39 @@ public class TaskService {
 
   public TaskResponseDTO updateTask(String id, TaskRequestDTO taskRequest) {
     logger.info("Iniciando o update da task com ID: {}", id);
-    Task task = this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
+    Task task = this.taskRepository.findById(id)
+        .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
     task.setTitle(taskRequest.getTitle());
     task.setDescription(taskRequest.getDescription());
     task.setDueDate(taskRequest.getDueDate());
     Task updateTask = this.taskRepository.save(task);
     logger.info("Finalizando o update da task com ID: {}", updateTask.getId());
     return new TaskResponseDTO(updateTask.getId(),
-                               updateTask.getTitle(),
-                               updateTask.getDescription(),
-                               updateTask.getStatus(),
-                               updateTask.getPriority(),
-                               updateTask.getDueDate());
+        updateTask.getTitle(),
+        updateTask.getDescription(),
+        updateTask.getStatus(),
+        updateTask.getPriority(),
+        updateTask.getDueDate());
+
+  }
+
+  public TaskResponseDTO getById(String id) {
+    Task task = this.taskRepository.findById(id)
+        .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+
+    return new TaskResponseDTO(
+        task.getId(),
+        task.getTitle(),
+        task.getDescription(),
+        task.getStatus(),
+        task.getPriority(),
+        task.getDueDate());
+  }
+
+  public void deleteTask(String id) {
+    Task task = this.taskRepository.findById(id)
+        .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
+
+    this.taskRepository.delete(task);
   }
 }

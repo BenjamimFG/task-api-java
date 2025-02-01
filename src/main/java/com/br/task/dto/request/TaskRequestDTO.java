@@ -3,7 +3,6 @@ package com.br.task.dto.request;
 import java.util.Date;
 
 import com.br.task.entity.TaskPriority;
-import com.br.task.entity.TaskStatus;
 
 public class TaskRequestDTO {
   private String title;
