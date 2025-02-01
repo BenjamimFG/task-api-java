@@ -28,6 +28,10 @@ public class Task {
     this.status = TaskStatus.PENDING;
   }
 
+  public Task() {
+
+  }
+
   public String getId() {
     return id;
   }

@@ -1,5 +1,6 @@
 package com.br.task.controller;
 
+import com.br.task.dto.request.TaskUpdateRequestDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,7 +50,7 @@ public class TaskController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable String id, @RequestBody TaskRequestDTO req) {
+  public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable String id, @RequestBody TaskUpdateRequestDTO req) {
     TaskResponseDTO res = this.taskService.updateTask(id, req);
 
     return ResponseEntity.ok(res);

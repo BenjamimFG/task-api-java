@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.br.task.dto.request.TaskRequestDTO;
+import com.br.task.dto.request.TaskUpdateRequestDTO;
 import com.br.task.dto.response.TaskResponseDTO;
 import com.br.task.entity.Task;
 import com.br.task.exception.TaskNotFoundException;
@@ -54,14 +55,16 @@ public class TaskService {
         savedTask.getStatus(), savedTask.getPriority(), savedTask.getDueDate());
   }
 
-  public TaskResponseDTO updateTask(String id, TaskRequestDTO taskRequest) {
+  public TaskResponseDTO updateTask(String id, TaskUpdateRequestDTO taskUpdateRequestDTO) {
     logger.info("Iniciando o update da task com ID: {}", id);
     Task task = this.taskRepository.findById(id)
         .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + id));
-    task.setTitle(taskRequest.getTitle());
-    task.setDescription(taskRequest.getDescription());
-    task.setDueDate(taskRequest.getDueDate());
+    task.setTitle(taskUpdateRequestDTO.getTitle());
+    task.setDescription(taskUpdateRequestDTO.getDescription());
+    task.setStatus(taskUpdateRequestDTO.getStatus());
+    task.setDueDate(taskUpdateRequestDTO.getDueDate());
     Task updateTask = this.taskRepository.save(task);
+    logger.info("Campos alterados: Titulo:{}",updateTask.getTitle());
     logger.info("Finalizando o update da task com ID: {}", updateTask.getId());
     return new TaskResponseDTO(updateTask.getId(),
         updateTask.getTitle(),
