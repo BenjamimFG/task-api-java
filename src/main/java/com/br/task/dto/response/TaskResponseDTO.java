@@ -1,17 +1,11 @@
-package com.br.task.entity;
+package com.br.task.dto.response;
 
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.br.task.entity.TaskPriority;
+import com.br.task.entity.TaskStatus;
 
-@Entity
-public class Task {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+public class TaskResponseDTO {
   private String id;
   private String title;
   private String description;
@@ -19,13 +13,14 @@ public class Task {
   private TaskPriority priority;
   private Date dueDate;
 
-  public Task(String title, String description, TaskPriority priority, Date dueDate) {
+  public TaskResponseDTO(String id, String title, String description, TaskStatus status, TaskPriority priority,
+      Date dueDate) {
+    this.id = id;
     this.title = title;
     this.description = description;
+    this.status = status;
     this.priority = priority;
     this.dueDate = dueDate;
-
-    this.status = TaskStatus.PENDING;
   }
 
   public String getId() {
